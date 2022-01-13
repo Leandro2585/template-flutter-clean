@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+
 import 'package:flutter_clean/domain/entities/number_trivia.dart';
 import 'package:flutter_clean/domain/errors/failure.dart';
 
