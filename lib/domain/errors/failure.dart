@@ -6,5 +6,5 @@ class Failure extends Equatable {
   const Failure({ this.message });
 
   @override
-  List<Object> get props => throw UnimplementedError();
+  List<dynamic> get props => [message];
 }
