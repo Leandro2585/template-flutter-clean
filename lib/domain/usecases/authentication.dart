@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 
 import 'package:flutter_clean/domain/entities/entities.dart';
 
@@ -11,7 +10,7 @@ class AuthenticationInput {
   final String password;
 
   AuthenticationInput({
-    @required this.email, 
-    @required this.password
+    required this.email, 
+    required this.password
   });
 }

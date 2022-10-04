@@ -3,14 +3,17 @@ import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 import 'package:meta/meta.dart';
 
+import 'package:flutter_clean/domain/usecases/usecases.dart';
+
 class RemoteAuthentication {
   final HttpClient httpClient;
   final String url;
 
   RemoteAuthentication({ @required this.httpClient, @required this.url });
 
-  Future<void> execute() async {
-    await httpClient.request(url: url, method: 'post');
+  Future<void> execute(AuthenticationInput input) async {
+    final body = { 'email': input.email, 'password': input.password };
+    await httpClient.request(url: url, method: 'post', body: body);
   }
 }
 
@@ -35,8 +38,9 @@ void main() {
   })
 
   test('should call HttpClient with correct URL', () async {
-    await sut.execute();
+    final input = AuthenticationInput(email: faker.internet.email(), password: faker.internet.password());
+    await sut.execute(input);
 
-    verify(httpClient.request(url: url, method: 'post'));
+    verify(httpClient.request(url: url, method: 'post', body: {'email': input.email, 'password': input.password}));
   });
 }
