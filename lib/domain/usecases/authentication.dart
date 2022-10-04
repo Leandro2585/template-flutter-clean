@@ -13,6 +13,4 @@ class AuthenticationInput {
     required this.email, 
     required this.password
   });
-
-  Map toJson() => {'email': email, 'password': password}
 }
