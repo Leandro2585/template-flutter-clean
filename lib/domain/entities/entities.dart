@@ -1,1 +1,1 @@
-export './number_trivia.dart';
+export 'account_entity.dart';
