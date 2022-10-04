@@ -3,8 +3,15 @@ import 'package:meta/meta.dart';
 import 'package:flutter_clean/domain/entities/entities.dart';
 
 abstract class Authentication {
-  Future<AccountEntity> execute({ 
-    @required String email, 
-    @required String password
+  Future<AccountEntity> execute(AuthenticationInput input);
+}
+
+class AuthenticationInput {
+  final String email;
+  final String password;
+
+  AuthenticationInput({
+    @required this.email, 
+    @required this.password
   });
 }
