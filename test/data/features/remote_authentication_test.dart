@@ -76,4 +76,13 @@ void main() {
 
     expect(account.token, token);
   });
+
+  test('should throw UnexpecteError if HttpClient returns 200 with invalid data', () async {
+    when(httpClient.request(url: anyNamed('url'), method: anyNamed('method'), body: anyNamed('body')))
+      .thenAnswer((_) async => {'invalid_key': 'invalid_value'});
+     
+    final future = sut.execute(params);
+  
+    expect(future, throwsA(DomainError.unexpected));
+  });
 }
