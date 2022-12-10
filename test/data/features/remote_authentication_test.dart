@@ -10,11 +10,13 @@ import 'package:mockito/mockito.dart';
 class HttpClientSpy extends Mock implements HttpClient {}
 
 void main() {
+  AuthenticationParams params;
   RemoteAuthentication sut;
   HttpClientSpy httpClient; 
   String url;
 
   setUp(() {
+    params = AuthenticationParams(email: faker.internet.email(), password: faker.internet.password());
     url = faker.internet.httpUrl();
     httpClient = HttpClientSpy();
     sut = RemoteAuthentication(httpClient: httpClient, url: url);
@@ -28,13 +30,38 @@ void main() {
   });
 
   test('should throw UnexpectedError if HttpClient returns 400', () async {
-
     when(httpClient.request(url: anyNamed('url'), method: anyNamed('method'), body: anyNamed('body')))
       .thenThrow(HttpError.badRequest);
 
-    final params = AuthenticationParams(email: faker.internet.email(), password: faker.internet.password());
     final future = sut.execute(params);
   
     expect(future, throwsA(DomainError.unexpected));
+  });
+
+  test('should throw UnexpectedError if HttpClient returns 404', () async {
+    when(httpClient.request(url: anyNamed('url'), method: anyNamed('method'), body: anyNamed('body')))
+      .thenThrow(HttpError.notFound);
+
+    final future = sut.execute(params);
+  
+    expect(future, throwsA(DomainError.unexpected));
+  });
+
+  test('should throw UnexpectedError if HttpClient returns 500', () async {
+    when(httpClient.request(url: anyNamed('url'), method: anyNamed('method'), body: anyNamed('body')))
+      .thenThrow(HttpError.serverError);
+
+    final future = sut.execute(params);
+  
+    expect(future, throwsA(DomainError.unexpected));
+  });
+
+  test('should throw InvalidCredentialsError if HttpClient returns 401', () async {
+    when(httpClient.request(url: anyNamed('url'), method: anyNamed('method'), body: anyNamed('body')))
+      .thenThrow(HttpError.unauthorized);
+    
+    final future = sut.execute(params);
+
+    expect(future, throwsA(DomainError.invalidCredentials));
   });
 }
