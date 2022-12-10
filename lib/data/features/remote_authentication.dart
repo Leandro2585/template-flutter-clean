@@ -1,17 +1,21 @@
+import 'package:meta/meta.dart';
+
 import 'package:flutter_clean/data/http/http.dart';
+import 'package:flutter_clean/domain/entities/entities.dart';
 import 'package:flutter_clean/domain/helpers/domain_error.dart';
 import 'package:flutter_clean/domain/usecases/authentication.dart';
-import 'package:meta/meta.dart';
+
 class RemoteAuthentication {
   final HttpClient httpClient;
   final String url;
 
   RemoteAuthentication({ @required this.httpClient, @required this.url });
 
-  Future<void> execute(AuthenticationParams params) async {
+  Future<AccountEntity> execute(AuthenticationParams params) async {
     final body = RemoteAuthenticationParams.fromDomain(params).toJson();
     try {
-      await httpClient.request(url: url, method: 'post', body: body);
+      final response = await httpClient.request(url: url, method: 'post', body: body);
+      return AccountEntity.fromJson(response);
     } on HttpError catch(error) {
       throw error == HttpError.unauthorized 
         ? DomainError.invalidCredentials 
