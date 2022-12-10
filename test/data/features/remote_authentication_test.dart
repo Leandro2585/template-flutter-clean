@@ -1,6 +1,6 @@
 import 'package:faker/faker.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:test/test.dart';
 
 class RemoteAuthentication {
   final HttpClient httpClient;
@@ -23,11 +23,17 @@ abstract class HttpClient {
 class HttpClientSpy extends Mock implements HttpClient {}
 
 void main() {
+  late RemoteAuthentication sut;
+  late HttpClientSpy httpClient; 
+  late String url;
+
+  setUp(() {
+    url = faker.internet.httpUrl();
+    httpClient = HttpClientSpy();
+    sut = RemoteAuthentication(httpClient: httpClient, url: url);
+  });
+
   test('should call HttpClient with correct values', () async {
-    final url = faker.internet.httpUrl();
-    final httpClient = HttpClientSpy();
-    final sut = RemoteAuthentication(httpClient: httpClient, url: url);
-    
     await sut.execute();
 
     verify(httpClient.request(url: url, method: 'post'));
