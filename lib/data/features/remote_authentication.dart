@@ -6,7 +6,7 @@ import 'package:flutter_clean/domain/helpers/helpers.dart';
 import 'package:flutter_clean/domain/entities/entities.dart';
 import 'package:flutter_clean/domain/usecases/usecases.dart';
 
-class RemoteAuthentication {
+class RemoteAuthentication implements Authentication {
   final HttpClient httpClient;
   final String url;
 
