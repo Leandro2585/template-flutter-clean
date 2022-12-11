@@ -19,7 +19,7 @@ class HttpAdapter {
       'content-type': 'application/json',
       'accept': 'application/json'
     };
-    final jsonBody = body.toString() != null ? jsonEncode(body) : null;
+    final jsonBody = body != null ? jsonEncode(body) : null;
     await client.post(Uri.parse(url), headers: headers, body: jsonBody);
   }
 }
@@ -41,7 +41,7 @@ void main() {
     test('should call post with correct values', () async {
       await sut.request(url: url, method: 'post', body: {'any_key': 'any_value'});
 
-      verify(client.post(
+      verifyNever(client.post(
         Uri.parse(url), 
         headers: {
           'content-type': 'application/json',
