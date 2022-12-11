@@ -21,4 +21,4 @@
 1. Internal server error - 500
 
 > ## Exceção - Verbo http válido
-1. Internal server error - 500
+1. ✅ Internal server error - 500
