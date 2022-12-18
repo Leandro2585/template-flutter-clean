@@ -5,6 +5,8 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -17,10 +19,7 @@ class LoginPage extends StatelessWidget {
                 gradient: LinearGradient(
                     begin: Alignment.topRight,
                     end: Alignment.bottomLeft,
-                    colors: [
-                      Theme.of(context).primaryColorLight,
-                      Theme.of(context).primaryColorDark
-                    ]),
+                    colors: [theme.primaryColorLight, theme.primaryColorDark]),
                 boxShadow: const [
                   BoxShadow(
                     offset: Offset(0, 0),
@@ -38,30 +37,46 @@ class LoginPage extends StatelessWidget {
             Text(
               'Login'.toUpperCase(),
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.headline1,
+              style: theme.textTheme.headline1,
             ),
-            Form(
-              child: Column(
-                children: <Widget>[
-                  TextFormField(
-                    decoration: const InputDecoration(
-                        labelText: 'Email', icon: Icon(Icons.email)),
-                    keyboardType: TextInputType.emailAddress,
-                  ),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                        labelText: 'Senha', icon: Icon(Icons.lock)),
-                    obscureText: true,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: Text('Entrar'.toUpperCase()),
-                  ),
-                  TextButton.icon(
+            Padding(
+              padding: const EdgeInsets.all(32),
+              child: Form(
+                child: Column(
+                  children: <Widget>[
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Email',
+                        icon: Icon(
+                          Icons.email,
+                          color: theme.primaryColorLight,
+                        ),
+                      ),
+                      keyboardType: TextInputType.emailAddress,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8, bottom: 32),
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                          labelText: 'Senha',
+                          icon: Icon(
+                            Icons.lock,
+                            color: theme.primaryColorLight,
+                          ),
+                        ),
+                        obscureText: true,
+                      ),
+                    ),
+                    ElevatedButton(
                       onPressed: () {},
-                      icon: const Icon(Icons.person),
-                      label: const Text('Criar Conta')),
-                ],
+                      child: Text('Entrar'.toUpperCase()),
+                    ),
+                    TextButton.icon(
+                        onPressed: () {},
+                        icon: const Icon(Icons.person),
+                        label: const Text('Criar Conta')),
+                  ],
+                ),
               ),
             ),
           ],
