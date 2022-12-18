@@ -21,8 +21,9 @@ dev_dependencies:
   test: 
   faker:
   mocktail:
+  flutter_lints:
 
 flutter:
   uses-material-design: true
   assets:
-    - lib/ui/assets
+    - ./lib/ui/assets/
