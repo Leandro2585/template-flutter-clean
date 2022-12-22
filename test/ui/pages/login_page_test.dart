@@ -12,12 +12,17 @@ class LoginPresenterSpy extends Mock implements LoginPresenter {}
 void main() {
   LoginPresenter presenter;
   StreamController<String> emailErrorController;
+  StreamController<String> passwordErrorController;
 
   Future<void> loadPage(WidgetTester tester) async {
     presenter = LoginPresenterSpy();
     emailErrorController = StreamController<String>();
+    passwordErrorController = StreamController<String>();
     when(presenter.emailErrorStream).thenAnswer(
       (_) => emailErrorController.stream,
+    );
+    when(presenter.emailErrorStream).thenAnswer(
+      (_) => passwordErrorController.stream,
     );
     final loginPage = MaterialApp(home: LoginPage(presenter: presenter));
     await tester.pumpWidget(loginPage);
@@ -25,6 +30,7 @@ void main() {
 
   tearDown(() {
     emailErrorController.close();
+    passwordErrorController.close();
   });
 
   testWidgets(
@@ -101,6 +107,54 @@ void main() {
     );
     expect(
       emailTextChildren,
+      findsOneWidget,
+      reason:
+          'when a TextFormField has only one text child, means it has no errors, since one of the child is always the label text',
+    );
+  });
+
+  testWidgets('should present error if password is invalid',
+      (WidgetTester tester) async {
+    await loadPage(tester);
+
+    passwordErrorController.add('any error');
+    await tester.pump();
+
+    expect(find.text('any error'), findsOneWidget);
+  });
+
+  testWidgets('should present no error if password is valid',
+      (WidgetTester tester) async {
+    await loadPage(tester);
+
+    passwordErrorController.add(null);
+    await tester.pump();
+
+    final passwordTextChildren = find.descendant(
+      of: find.bySemanticsLabel('Senha'),
+      matching: find.byType(Text),
+    );
+    expect(
+      passwordTextChildren,
+      findsOneWidget,
+      reason:
+          'when a TextFormField has only one text child, means it has no errors, since one of the child is always the label text',
+    );
+  });
+
+  testWidgets('should present no error if password is valid',
+      (WidgetTester tester) async {
+    await loadPage(tester);
+
+    passwordErrorController.add('');
+    await tester.pump();
+
+    final passwordTextChildren = find.descendant(
+      of: find.bySemanticsLabel('Senha'),
+      matching: find.byType(Text),
+    );
+    expect(
+      passwordTextChildren,
       findsOneWidget,
       reason:
           'when a TextFormField has only one text child, means it has no errors, since one of the child is always the label text',
