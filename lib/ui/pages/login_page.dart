@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_clean/ui/components/components.dart';
+import 'package:flutter_clean/ui/pages/pages.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({Key key}) : super(key: key);
+  final LoginPresenter presenter;
+
+  const LoginPage({this.presenter, Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -30,6 +32,7 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
                       keyboardType: TextInputType.emailAddress,
+                      onChanged: presenter.validateEmail,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 8, bottom: 32),
@@ -42,6 +45,7 @@ class LoginPage extends StatelessWidget {
                           ),
                         ),
                         obscureText: true,
+                        onChanged: presenter.validatePassword,
                       ),
                     ),
                     ElevatedButton(

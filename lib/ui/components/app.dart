@@ -14,45 +14,47 @@ class App extends StatelessWidget {
     const primaryColorLight = Color.fromRGBO(188, 71, 123, 1);
 
     return MaterialApp(
-        title: 'Flutter Clean Arch',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primaryColor: primaryColor,
-          primaryColorDark: primaryColorDark,
-          primaryColorLight: primaryColorLight,
-          colorScheme:
-              ColorScheme.fromSwatch().copyWith(secondary: primaryColor),
-          backgroundColor: Colors.white,
-          textTheme: const TextTheme(
-            headline1: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-                color: primaryColorDark),
+      title: 'Flutter Clean Arch',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primaryColor: primaryColor,
+        primaryColorDark: primaryColorDark,
+        primaryColorLight: primaryColorLight,
+        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: primaryColor),
+        backgroundColor: Colors.white,
+        textTheme: const TextTheme(
+          headline1: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+              color: primaryColorDark),
+        ),
+        inputDecorationTheme: const InputDecorationTheme(
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: primaryColorLight,
+            ),
           ),
-          inputDecorationTheme: const InputDecorationTheme(
-            enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(
-                color: primaryColorLight,
-              ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: primaryColor,
             ),
-            focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(
-                color: primaryColor,
-              ),
-            ),
-            alignLabelWithHint: true,
           ),
-          buttonTheme: const ButtonThemeData(
-            colorScheme: ColorScheme.light(primary: primaryColor),
-            buttonColor: primaryColor,
-            splashColor: primaryColorLight,
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-            textTheme: ButtonTextTheme.primary,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20)),
-            ),
+          alignLabelWithHint: true,
+        ),
+        buttonTheme: const ButtonThemeData(
+          colorScheme: ColorScheme.light(primary: primaryColor),
+          buttonColor: primaryColor,
+          splashColor: primaryColorLight,
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          textTheme: ButtonTextTheme.primary,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
           ),
         ),
-        home: const LoginPage());
+      ),
+      home: const LoginPage(
+        presenter: null,
+      ),
+    );
   }
 }
