@@ -56,7 +56,9 @@ void main() {
           reason:
               'when a TextFormField has only one text child, means it has no errors, since one of the child is always the label text');
       final button = tester.widget<ElevatedButton>(find.byType(ElevatedButton));
+
       expect(button.onPressed, null);
+      expect(find.byType(CircularProgressIndicator), findsNothing);
     },
   );
 
@@ -210,5 +212,16 @@ void main() {
     await tester.pump();
 
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
+  });
+
+  testWidgets('should hide loading', (WidgetTester tester) async {
+    await loadPage(tester);
+
+    isLoadingController.add(true);
+    await tester.pump();
+    isLoadingController.add(false);
+    await tester.pump();
+
+    expect(find.byType(CircularProgressIndicator), findsNothing);
   });
 }
