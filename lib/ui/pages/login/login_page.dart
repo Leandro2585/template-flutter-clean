@@ -58,9 +58,10 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         const LoginButton(),
                         TextButton.icon(
-                            onPressed: () {},
-                            icon: const Icon(Icons.person),
-                            label: const Text('Criar Conta')),
+                          onPressed: () {},
+                          icon: const Icon(Icons.person),
+                          label: const Text('Criar Conta'),
+                        ),
                       ],
                     ),
                   ),
