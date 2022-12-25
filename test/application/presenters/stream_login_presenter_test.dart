@@ -9,6 +9,7 @@ class ValidationSpy extends Mock implements Validation {}
 
 void main() {
   String email;
+  String password;
   ValidationSpy validation;
   StreamLoginPresenter sut;
 
@@ -21,6 +22,7 @@ void main() {
 
   setUp(() {
     email = faker.internet.email();
+    password = faker.internet.password();
     validation = ValidationSpy();
     sut = StreamLoginPresenter(validation: validation);
     mockValidation();
@@ -51,5 +53,11 @@ void main() {
 
     sut.validateEmail(email);
     sut.validateEmail(email);
+  });
+
+  test('should call Validation with correct password', () {
+    sut.validatePassword(password);
+
+    verify(validation.validate(field: 'password', value: password)).called(1);
   });
 }
