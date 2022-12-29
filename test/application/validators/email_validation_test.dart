@@ -21,14 +21,14 @@ void main() {
   });
 
   test('should return null if email is empty', () {
-    final error = sut.validate('');
-
-    expect(error, null);
+    expect(sut.validate(''), null);
   });
 
   test('should return null if email is null', () {
-    final error = sut.validate(null);
+    expect(sut.validate(null), null);
+  });
 
-    expect(error, null);
+  test('should return null if email is valid', () {
+    expect(sut.validate('leo.real2585@gmail.com'), null);
   });
 }
