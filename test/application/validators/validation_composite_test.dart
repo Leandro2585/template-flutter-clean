@@ -11,7 +11,16 @@ class ValidationComposite implements Validation {
 
   @override
   String validate({@required String field, @required String value}) {
-    return null;
+    String error;
+    for (final validation in validations) {
+      error = validation.validate(value);
+      if (error == '') {
+        return null;
+      } else if (error?.isNotEmpty == true) {
+        return error;
+      }
+    }
+    return error;
   }
 }
 
@@ -22,19 +31,37 @@ void main() {
   FieldValidationSpy validation2;
   ValidationComposite sut;
 
+  void mockValidation1(String error) {
+    when(validation1.validate(any)).thenReturn(error);
+  }
+
+  void mockValidation2(String error) {
+    when(validation2.validate(any)).thenReturn(error);
+  }
+
   setUp(() {
     validation1 = FieldValidationSpy();
     validation2 = FieldValidationSpy();
+    when(validation1.field).thenReturn('any_field');
+    when(validation2.field).thenReturn('any_field');
+    mockValidation1(null);
     sut = ValidationComposite([validation1, validation2]);
   });
 
   test('should return null if all validations returns null or empty', () {
-    when(validation1.field).thenReturn('any_field');
-    when(validation1.validate(any)).thenReturn(null);
-    when(validation2.field).thenReturn('any_field');
-    when(validation2.validate(any)).thenReturn('');
+    mockValidation2('');
+
     final error = sut.validate(field: 'any_field', value: 'any_value');
 
     expect(error, null);
+  });
+
+  test('should return the first error', () {
+    mockValidation1('error_1');
+    mockValidation2('error_2');
+
+    final error = sut.validate(field: 'any_field', value: 'any_value');
+
+    expect(error, 'error_1');
   });
 }
