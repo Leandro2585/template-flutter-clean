@@ -23,7 +23,7 @@ class ValidationBuilder {
   ValidationBuilder email() {
     validations.add(EmailValidation(fieldName));
     return this;
-  }
+  }  
 
   List<FieldValidation> build() => validations;
 }
