@@ -29,20 +29,22 @@ class LocalSaveCurrentAccount implements SaveCurrentAccount {
 }
 
 void main() {
-  test('should call SaveCacheStorage with correct values', () async {
-    final cacheStorage = SaveCacheStorageSpy();
-    final sut = LocalSaveCurrentAccount(saveCacheStorage: cacheStorage);
-    final account = AccountEntity(faker.guid.guid());
+  SaveCacheStorageSpy cacheStorage;
+  AccountEntity account;
+  LocalSaveCurrentAccount sut;
 
+  setUp(() {
+    cacheStorage = SaveCacheStorageSpy();
+    account = AccountEntity(faker.guid.guid());
+    sut = LocalSaveCurrentAccount(saveCacheStorage: cacheStorage);
+  });
+  test('should call SaveCacheStorage with correct values', () async {
     await sut.save(account);
 
     verify(cacheStorage.saveSecure(key: 'token', value: account.token));
   });
 
   test('should throw UnexpectedError if SaveCacheStorage throws', () async {
-    final cacheStorage = SaveCacheStorageSpy();
-    final sut = LocalSaveCurrentAccount(saveCacheStorage: cacheStorage);
-    final account = AccountEntity(faker.guid.guid());
     when(cacheStorage.saveSecure(
       key: anyNamed('key'),
       value: anyNamed('value'),
