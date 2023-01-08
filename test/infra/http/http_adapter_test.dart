@@ -11,7 +11,7 @@ class ClientSpy extends Mock implements Client {}
 void main() {
   String url;
   ClientSpy client;
-  HttpAdapter sut; 
+  HttpAdapter sut;
 
   setUp(() {
     url = faker.internet.httpUrl();
@@ -22,16 +22,17 @@ void main() {
   group('SHARED', () {
     test('should throw ServerError if invalid method is provided', () async {
       final future = sut.request(url: url, method: 'invalid_method');
-      
+
       expect(future, throwsA(HttpError.serverError));
     });
   });
 
   group('POST', () {
-    PostExpectation mockRequest() => 
-      when(client.post(any, body: anyNamed('body'), headers: anyNamed('headers')));
-    
-    void mockResponse(int statusCode, {String body = '{"any_key":"any_value"}'}) {
+    PostExpectation mockRequest() => when(
+        client.post(any, body: anyNamed('body'), headers: anyNamed('headers')));
+
+    void mockResponse(int statusCode,
+        {String body = '{"any_key":"any_value"}'}) {
       mockRequest().thenAnswer((_) async => Response(body, statusCode));
     }
 
@@ -40,29 +41,25 @@ void main() {
     }
 
     setUp(() {
-      mockResponse(200);
+      // mockResponse(200);
     });
 
     test('should call post with correct values', () async {
-      await sut.request(url: url, method: 'post', body: {'any_key': 'any_value'});
+      await sut
+          .request(url: url, method: 'post', body: {'any_key': 'any_value'});
 
-      verify(client.post(
-        Uri.parse(url), 
-        headers: {
-          'content-type': 'application/json',
-          'accept': 'application/json'
-        },
-        body: '{"any_key":"any_value"}'
-      ));
+      verify(client.post(Uri.parse(url),
+          headers: {
+            'content-type': 'application/json',
+            'accept': 'application/json'
+          },
+          body: '{"any_key":"any_value"}'));
     });
 
     test('should call post without body', () async {
       await sut.request(url: url, method: 'post');
 
-      verify(client.post(
-        any,
-        headers: anyNamed('headers')
-      ));
+      verify(client.post(any, headers: anyNamed('headers')));
     });
 
     test('should return data if post returns 200', () async {
