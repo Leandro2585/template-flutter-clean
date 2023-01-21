@@ -19,22 +19,24 @@ void main() {
     sut = LocalStorageAdapter(secureStorage: secureStorage);
   });
 
-  void mockSaveSecureError() {
-    when(secureStorage.write(key: anyNamed('key'), value: anyNamed('value')))
-        .thenThrow(Exception());
-  }
+  group('saveSecure', () {
+    void mockSaveSecureError() {
+      when(secureStorage.write(key: anyNamed('key'), value: anyNamed('value')))
+          .thenThrow(Exception());
+    }
 
-  test('should call save secure with correct values', () async {
-    await sut.saveSecure(key: key, value: value);
+    test('should call save secure with correct values', () async {
+      await sut.saveSecure(key: key, value: value);
 
-    verify(secureStorage.write(key: key, value: value));
-  });
+      verify(secureStorage.write(key: key, value: value));
+    });
 
-  test('should throw if save secure throws', () {
-    mockSaveSecureError();
+    test('should throw if save secure throws', () {
+      mockSaveSecureError();
 
-    final future = sut.saveSecure(key: key, value: value);
+      final future = sut.saveSecure(key: key, value: value);
 
-    expect(future, throwsA(const TypeMatcher<Exception>()));
+      expect(future, throwsA(const TypeMatcher<Exception>()));
+    });
   });
 }

@@ -30,7 +30,7 @@ void main() {
 
   void mockAuthentication() {
     mockAuthenticationCall()
-        .thenAnswer((_) async => AccountEntity(faker.guid.guid()));
+        .thenAnswer((_) async => AccountEntity(token: faker.guid.guid()));
   }
 
   void mockAuthenticationError(DomainError error) {
