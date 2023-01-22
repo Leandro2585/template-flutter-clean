@@ -39,4 +39,12 @@ void main() {
       expect(future, throwsA(const TypeMatcher<Exception>()));
     });
   });
+
+  group('fetchSecure', () {
+    test('should call save secure with correct values', () async {
+      await sut.fetchSecure(key);
+
+      verify(secureStorage.read(key: key));
+    });
+  });
 }
