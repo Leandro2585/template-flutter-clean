@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
-
-import 'package:flutter_clean/ui/pages/login/components/components.dart';
-import 'package:flutter_clean/ui/components/components.dart';
-import 'package:flutter_clean/ui/pages/login/login.dart';
 import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'package:flutter_clean/ui/pages/login/login.dart';
+import 'package:flutter_clean/ui/components/components.dart';
+import 'package:flutter_clean/ui/pages/login/components/components.dart';
 
 class LoginPage extends StatelessWidget {
   final LoginPresenter presenter;
