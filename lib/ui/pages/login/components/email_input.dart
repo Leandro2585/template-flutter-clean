@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_clean/i18n/i18n.dart';
 import 'package:flutter_clean/ui/pages/login/login.dart';
 import 'package:provider/provider.dart';
 
@@ -15,7 +16,7 @@ class EmailInput extends StatelessWidget {
       builder: (context, snapshot) {
         return TextFormField(
           decoration: InputDecoration(
-            labelText: 'Email',
+            labelText: R.strings.email,
             errorText: snapshot.data?.isEmpty == true ? null : snapshot.data,
             icon: Icon(
               Icons.email,
