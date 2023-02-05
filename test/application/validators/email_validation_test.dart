@@ -1,12 +1,13 @@
 import 'package:test/test.dart';
 
+import 'package:flutter_clean/application/protocols/protocols.dart';
 import 'package:flutter_clean/application/validators/validators.dart';
 
 void main() {
   EmailValidation sut;
 
   setUp(() {
-    sut = EmailValidation('any_field');
+    sut = const EmailValidation('any_field');
   });
 
   test('should return null if email is empty', () {
@@ -22,6 +23,6 @@ void main() {
   });
 
   test('should return error if email is invalid', () {
-    expect(sut.validate('leo.real2585'), 'Campo inválido');
+    expect(sut.validate('leo.real2585'), ValidationError.invalidField);
   });
 }

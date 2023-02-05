@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:flutter_clean/i18n/i18n.dart';
 import 'package:flutter_clean/ui/pages/login/login.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_clean/application/exceptions/exceptions.dart';
 
 class PasswordInput extends StatelessWidget {
   const PasswordInput({
@@ -13,13 +15,13 @@ class PasswordInput extends StatelessWidget {
     final presenter = Provider.of<LoginPresenter>(context);
     final theme = Theme.of(context);
 
-    return StreamBuilder<String>(
+    return StreamBuilder<UIExceptions>(
       stream: presenter.passwordErrorStream,
       builder: (context, snapshot) {
         return TextFormField(
           decoration: InputDecoration(
             labelText: R.strings.password,
-            errorText: snapshot.data?.isEmpty == true ? null : snapshot.data,
+            errorText: snapshot.hasData ? snapshot.data.description : null,
             icon: Icon(
               Icons.lock,
               color: theme.primaryColorLight,

@@ -1,3 +1,4 @@
+import 'package:flutter_clean/application/exceptions/exceptions.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -33,7 +34,7 @@ class LoginPage extends StatelessWidget {
 
         presenter.mainErrorStream.listen((error) {
           if (error != null) {
-            showErrorMessage(context, error);
+            showErrorMessage(context, error.description);
           }
         });
         presenter.navigateToStream.listen((page) {

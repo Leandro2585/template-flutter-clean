@@ -12,7 +12,7 @@ class RequiredFieldValidation extends Equatable implements FieldValidation {
   const RequiredFieldValidation(this.field);
 
   @override
-  String validate(String value) {
-    return value?.isNotEmpty == true ? null : 'Campo obrigatório';
+  ValidationError validate(String value) {
+    return value?.isNotEmpty == true ? null : ValidationError.requiredField;
   }
 }

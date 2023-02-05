@@ -1,11 +1,12 @@
-import 'package:flutter_clean/domain/exceptions/exceptions.dart';
 import 'package:meta/meta.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/state_manager.dart';
 
 import 'package:flutter_clean/ui/pages/login/login.dart';
 import 'package:flutter_clean/domain/usecases/usecases.dart';
+import 'package:flutter_clean/domain/exceptions/exceptions.dart';
 import 'package:flutter_clean/application/protocols/protocols.dart';
+import 'package:flutter_clean/application/exceptions/exceptions.dart';
 
 class GetxLoginPresenter extends GetxController implements LoginPresenter {
   final Validation validation;
@@ -15,19 +16,19 @@ class GetxLoginPresenter extends GetxController implements LoginPresenter {
   String _email;
   String _password;
 
-  final _emailError = RxString(null);
-  final _passwordError = RxString(null);
-  final _mainError = RxString(null);
+  final _emailError = Rx<UIExceptions>(null);
+  final _passwordError = Rx<UIExceptions>(null);
+  final _mainError = Rx<UIExceptions>(null);
   final _isFormValid = false.obs;
   final _isLoading = false.obs;
   final _navigateTo = RxString(null);
 
   @override
-  Stream<String> get emailErrorStream => _emailError.stream;
+  Stream<UIExceptions> get emailErrorStream => _emailError.stream;
   @override
-  Stream<String> get passwordErrorStream => _passwordError.stream;
+  Stream<UIExceptions> get passwordErrorStream => _passwordError.stream;
   @override
-  Stream<String> get mainErrorStream => _mainError.stream;
+  Stream<UIExceptions> get mainErrorStream => _mainError.stream;
   @override
   Stream<String> get navigateToStream => _navigateTo.stream;
   @override
@@ -51,16 +52,27 @@ class GetxLoginPresenter extends GetxController implements LoginPresenter {
   @override
   void validateEmail(String email) {
     _email = email;
-    _emailError.value = validation.validate(field: 'email', value: email);
+    _emailError.value = _validateField(field: 'email', value: email);
     _validateForm();
   }
 
   @override
   void validatePassword(String password) {
     _password = password;
-    _passwordError.value =
-        validation.validate(field: 'password', value: password);
+    _passwordError.value = _validateField(field: 'password', value: password);
     _validateForm();
+  }
+
+  UIExceptions _validateField({String field, String value}) {
+    final error = validation.validate(field: field, value: value);
+    switch (error) {
+      case ValidationError.invalidField:
+        return UIExceptions.invalidField;
+      case ValidationError.requiredField:
+        return UIExceptions.requiredField;
+      default:
+        return null;
+    }
   }
 
   @override
@@ -73,7 +85,14 @@ class GetxLoginPresenter extends GetxController implements LoginPresenter {
       await saveCurrentAccount.save(account);
       _navigateTo.value = '/surveys';
     } on DomainError catch (error) {
-      _mainError.value = error.description;
+      switch (error) {
+        case DomainError.invalidCredentials:
+          _mainError.value = UIExceptions.invalidCredentials;
+          break;
+        default:
+          _mainError.value = UIExceptions.unexpected;
+          break;
+      }
     } finally {
       _isLoading.value = false;
     }
