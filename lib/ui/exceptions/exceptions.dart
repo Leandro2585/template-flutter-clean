@@ -1,3 +1,5 @@
+import 'package:flutter_clean/ui/i18n/i18n.dart';
+
 enum UIExceptions {
   unexpected,
   invalidField,
@@ -9,13 +11,13 @@ extension UIExceptionsExtension on UIExceptions {
   String get description {
     switch (this) {
       case UIExceptions.invalidField:
-        return 'Campo inválido.';
+        return R.strings.msgInvalidField;
       case UIExceptions.requiredField:
-        return 'Campo obrigatório.';
+        return R.strings.msgRequiredField;
       case UIExceptions.invalidCredentials:
-        return 'Credenciais inválidas.';
+        return R.strings.msgInvalidCredentials;
       default:
-        return 'Algo errado aconteceu. Tente novamente em breve.';
+        return R.strings.msgUnexpected;
     }
   }
 }

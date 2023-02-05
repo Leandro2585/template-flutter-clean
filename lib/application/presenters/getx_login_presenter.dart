@@ -6,7 +6,7 @@ import 'package:flutter_clean/ui/pages/login/login.dart';
 import 'package:flutter_clean/domain/usecases/usecases.dart';
 import 'package:flutter_clean/domain/exceptions/exceptions.dart';
 import 'package:flutter_clean/application/protocols/protocols.dart';
-import 'package:flutter_clean/application/exceptions/exceptions.dart';
+import 'package:flutter_clean/ui/exceptions/exceptions.dart';
 
 class GetxLoginPresenter extends GetxController implements LoginPresenter {
   final Validation validation;

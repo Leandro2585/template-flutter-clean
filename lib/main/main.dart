@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:flutter_clean/i18n/i18n.dart';
+import 'package:flutter_clean/ui/i18n/i18n.dart';
 import 'package:flutter_clean/main/factories/factories.dart';
 import 'package:flutter_clean/ui/components/components.dart';
 

@@ -1,4 +1,4 @@
-import 'package:flutter_clean/application/exceptions/exceptions.dart';
+import 'package:flutter_clean/ui/exceptions/exceptions.dart';
 
 abstract class LoginPresenter {
   Stream<UIExceptions> get emailErrorStream;

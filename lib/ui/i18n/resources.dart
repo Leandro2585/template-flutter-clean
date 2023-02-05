@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-import 'package:flutter_clean/i18n/strings/strings.dart';
+import 'package:flutter_clean/ui/i18n/strings/strings.dart';
 
 class R {
   static Translations strings = PtBr();
