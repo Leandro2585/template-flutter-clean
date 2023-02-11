@@ -2,6 +2,7 @@ import 'package:meta/meta.dart';
 
 import 'package:flutter_clean/data/http/http.dart';
 import 'package:flutter_clean/domain/usecases/usecases.dart';
+import 'package:flutter_clean/domain/exceptions/exceptions.dart';
 
 class RemoteAddAccount {
   final HttpClient httpClient;
@@ -11,8 +12,12 @@ class RemoteAddAccount {
 
   @override
   Future<void> execute(AddAccountParams params) async {
-    final body = RemoteAddAccountParams.fromDomain(params).toJson();
-    await httpClient.request(url: url, method: 'post', body: body);
+    try {
+      final body = RemoteAddAccountParams.fromDomain(params).toJson();
+      await httpClient.request(url: url, method: 'post', body: body);
+    } on HttpError {
+      throw DomainError.unexpected;
+    }
   }
 }
 
