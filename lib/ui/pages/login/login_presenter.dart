@@ -1,6 +1,7 @@
 import 'package:flutter_clean/ui/exceptions/exceptions.dart';
+import 'package:flutter/material.dart';
 
-abstract class LoginPresenter {
+abstract class LoginPresenter implements Listenable {
   Stream<UIExceptions> get emailErrorStream;
   Stream<UIExceptions> get passwordErrorStream;
   Stream<UIExceptions> get mainErrorStream;

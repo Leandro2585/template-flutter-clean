@@ -7,29 +7,16 @@ class LoginHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Container(
       height: 240,
+      color: const Color.fromRGBO(239, 244, 255, 1),
       margin: const EdgeInsets.only(bottom: 32),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-          colors: [theme.primaryColorLight, theme.primaryColorDark],
-        ),
-        boxShadow: const [
-          BoxShadow(
-            offset: Offset(0, 0),
-            spreadRadius: 0,
-            blurRadius: 4,
-            color: Colors.black,
-          ),
-        ],
-        borderRadius: const BorderRadius.only(
-          bottomLeft: Radius.circular(100),
+      child: const Padding(
+        padding: EdgeInsets.only(top: 48),
+        child: Image(
+          image: AssetImage('lib/ui/assets/logo.png'),
         ),
       ),
-      child: const Image(image: AssetImage('lib/ui/assets/logo.png')),
     );
   }
 }

@@ -1,4 +1,3 @@
-import 'package:flutter_clean/ui/exceptions/exceptions.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -6,12 +5,13 @@ import 'package:provider/provider.dart';
 import 'package:flutter_clean/ui/i18n/i18n.dart';
 import 'package:flutter_clean/ui/pages/login/login.dart';
 import 'package:flutter_clean/ui/components/components.dart';
+import 'package:flutter_clean/ui/exceptions/exceptions.dart';
 import 'package:flutter_clean/ui/pages/login/components/components.dart';
 
 class LoginPage extends StatelessWidget {
   final LoginPresenter presenter;
 
-  const LoginPage({this.presenter, Key key}) : super(key: key);
+  const LoginPage({Key key, this.presenter}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,6 @@ class LoginPage extends StatelessWidget {
             hideLoading(context);
           }
         });
-
         presenter.mainErrorStream.listen((error) {
           if (error != null) {
             showErrorMessage(context, error.description);
@@ -52,7 +51,7 @@ class LoginPage extends StatelessWidget {
                 const Headline1(text: 'Login'),
                 Padding(
                   padding: const EdgeInsets.all(32),
-                  child: Provider(
+                  child: ListenableProvider(
                     create: (_) => presenter,
                     child: Form(
                       child: Column(
