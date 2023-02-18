@@ -8,4 +8,6 @@ abstract class Translations {
   String get msgInvalidField;
   String get msgRequiredField;
   String get msgInvalidCredentials;
+
+  String get forgotPassword;
 }

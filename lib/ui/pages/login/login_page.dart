@@ -15,6 +15,8 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     void _hideKeyboard() {
       final currentFocus = FocusScope.of(context);
       if (!currentFocus.hasPrimaryFocus) {
@@ -23,6 +25,7 @@ class LoginPage extends StatelessWidget {
     }
 
     return Scaffold(
+      backgroundColor: const Color.fromRGBO(239, 244, 255, 1),
       body: Builder(builder: (context) {
         presenter.isLoadingStream.listen((isLoading) {
           if (isLoading) {
@@ -48,30 +51,56 @@ class LoginPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 const LoginHeader(),
-                const Headline1(text: 'Login'),
-                Padding(
-                  padding: const EdgeInsets.all(32),
-                  child: ListenableProvider(
-                    create: (_) => presenter,
-                    child: Form(
-                      child: Column(
-                        children: <Widget>[
-                          const EmailInput(),
-                          const Padding(
-                            padding: EdgeInsets.only(top: 8, bottom: 32),
-                            child: PasswordInput(),
-                          ),
-                          const LoginButton(),
-                          TextButton.icon(
-                            onPressed: () {},
-                            icon: const Icon(Icons.person),
-                            label: Text(R.strings.addAccount),
-                          ),
-                        ],
+                Container(
+                    height: MediaQuery.of(context).size.height - 240,
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(36),
+                        topRight: Radius.circular(36),
                       ),
+                      boxShadow: const [
+                        BoxShadow(
+                          blurRadius: 32,
+                          blurStyle: BlurStyle.outer,
+                          offset: Offset(0, 2),
+                          color: Color.fromRGBO(82, 130, 255, 0.09),
+                        )
+                      ],
+                      color: theme.backgroundColor,
                     ),
-                  ),
-                ),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Headline1(
+                            title: 'Bem-vindo de volta',
+                            subtitle: 'Faça login com a sua conta',
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(32),
+                            child: ListenableProvider(
+                              create: (_) => presenter,
+                              child: Form(
+                                child: Column(
+                                  children: <Widget>[
+                                    const EmailInput(),
+                                    const Padding(
+                                      padding:
+                                          EdgeInsets.only(top: 8, bottom: 32),
+                                      child: PasswordInput(),
+                                    ),
+                                    const LoginButton(),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 16),
+                                      child: Text(
+                                        R.strings.forgotPassword,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ])),
               ],
             ),
           ),

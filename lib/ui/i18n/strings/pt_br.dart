@@ -14,6 +14,9 @@ class PtBr implements Translations {
   String get password => 'Senha';
 
   @override
+  get forgotPassword => 'Esqueci minha senha';
+
+  @override
   String get msgRequiredField => 'Campo obrigatório.';
 
   @override

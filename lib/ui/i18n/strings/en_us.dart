@@ -14,6 +14,9 @@ class EnUs implements Translations {
   String get password => 'Password';
 
   @override
+  String get forgotPassword => 'Forgot your password';
+
+  @override
   String get msgRequiredField => 'Required field.';
 
   @override

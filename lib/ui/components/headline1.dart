@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 class Headline1 extends StatelessWidget {
-  final String text;
+  final String title;
+  final String subtitle;
   const Headline1({
-    @required this.text,
+    @required this.title,
+    @required this.subtitle,
     Key key,
   }) : super(key: key);
 
@@ -11,10 +13,21 @@ class Headline1 extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Text(
-      text.toUpperCase(),
-      textAlign: TextAlign.center,
-      style: theme.textTheme.headline1,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          textAlign: TextAlign.left,
+          style: theme.textTheme.headline1,
+        ),
+        const Padding(padding: EdgeInsets.only(top: 8, bottom: 8)),
+        Text(
+          subtitle,
+          textAlign: TextAlign.start,
+          style: theme.textTheme.subtitle1,
+        )
+      ],
     );
   }
 }

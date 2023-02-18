@@ -7,7 +7,7 @@ import 'package:flutter_clean/main/factories/factories.dart';
 import 'package:flutter_clean/ui/components/components.dart';
 
 void main() {
-  R.load(const Locale('en', 'US'));
+  R.load(const Locale('pt', 'BR'));
   runApp(const App());
 }
 

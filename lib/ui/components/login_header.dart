@@ -10,7 +10,6 @@ class LoginHeader extends StatelessWidget {
     return Container(
       height: 240,
       color: const Color.fromRGBO(239, 244, 255, 1),
-      margin: const EdgeInsets.only(bottom: 32),
       child: const Padding(
         padding: EdgeInsets.only(top: 48),
         child: Image(

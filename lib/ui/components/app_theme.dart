@@ -3,14 +3,25 @@ import 'package:flutter/material.dart';
 ThemeData makeAppTheme() {
   const primaryColor = Color(0xFF376AED);
   const primaryColorDark = Color(0xFF2D53B4);
-  const primaryColorLight = Color(0xFF668CFC);
-  const backgroundColor = Color.fromRGBO(255, 255, 255, 1);
+  const primaryColorLight = Color(0xFFB1C4FE);
+  const backgroundColor = Color(0xFFFFFFFF);
+  const headlineTextColor = Color(0xFF0D253C);
+  const subtitleTextColor = Color(0xFF2D4379);
 
   const textTheme = TextTheme(
     headline1: TextStyle(
-      fontSize: 30,
+      fontSize: 32,
       fontWeight: FontWeight.bold,
-      color: primaryColor,
+      color: headlineTextColor,
+    ),
+    subtitle1: TextStyle(
+      fontSize: 14,
+      color: subtitleTextColor,
+    ),
+    labelMedium: TextStyle(
+      color: backgroundColor,
+      fontSize: 16,
+      fontWeight: FontWeight.bold,
     ),
   );
 
