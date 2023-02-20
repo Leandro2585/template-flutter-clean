@@ -76,7 +76,7 @@ class LoginPage extends StatelessWidget {
                             subtitle: 'Faça login com a sua conta',
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(32),
+                            padding: const EdgeInsets.all(36),
                             child: ListenableProvider(
                               create: (_) => presenter,
                               child: Form(

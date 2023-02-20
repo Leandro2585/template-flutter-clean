@@ -83,7 +83,7 @@ class GetxLoginPresenter extends GetxController implements LoginPresenter {
       final account = await authentication
           .execute(AuthenticationParams(email: _email, password: _password));
       await saveCurrentAccount.save(account);
-      _navigateTo.value = '/surveys';
+      _navigateTo.value = '/home';
     } on DomainError catch (error) {
       switch (error) {
         case DomainError.invalidCredentials:

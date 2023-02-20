@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:flutter_clean/ui/i18n/i18n.dart';
+import 'package:flutter_clean/ui/pages/pages.dart';
+import 'package:flutter_clean/ui/pages/home/data.dart';
 import 'package:flutter_clean/main/factories/factories.dart';
 import 'package:flutter_clean/ui/components/components.dart';
 
@@ -24,14 +26,16 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: makeAppTheme(),
       navigatorObservers: [routeObserver],
-      initialRoute: '/',
+      initialRoute: '/home',
       getPages: [
         GetPage(name: '/', page: makeSplashPage, transition: Transition.fade),
         GetPage(
             name: '/login', page: makeLoginPage, transition: Transition.fadeIn),
         GetPage(
-          name: '/surveys',
-          page: () => const Scaffold(body: Text('Enquetes')),
+          name: '/home',
+          page: () => HomePage(
+            stories: stories,
+          ),
           transition: Transition.fadeIn,
         )
       ],

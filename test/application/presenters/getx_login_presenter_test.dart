@@ -197,8 +197,7 @@ void main() {
     sut.validateEmail(email);
     sut.validatePassword(password);
 
-    sut.navigateToStream
-        .listen(expectAsync1((page) => expect(page, '/surveys')));
+    sut.navigateToStream.listen(expectAsync1((page) => expect(page, '/home')));
 
     await sut.auth();
   });

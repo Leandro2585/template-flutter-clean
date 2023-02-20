@@ -12,7 +12,6 @@ class SplashPage extends StatelessWidget {
   Widget build(BuildContext context) {
     presenter.checkAccount();
     return Scaffold(
-      appBar: AppBar(title: const Text('Flutter Clean')),
       body: Builder(builder: (context) {
         presenter.navigateToStream.listen((page) {
           if (page?.isNotEmpty == true) {
@@ -20,7 +19,9 @@ class SplashPage extends StatelessWidget {
           }
         });
         return const Center(
-          child: CircularProgressIndicator(),
+          child: Image(
+            image: AssetImage('lib/ui/assets/full-logo.png'),
+          ),
         );
       }),
     );
