@@ -2,7 +2,7 @@
     package="com.example.flutter_clean">
    <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="flutter_clean"
+        android:label="blogger"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

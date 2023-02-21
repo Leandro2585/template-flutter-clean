@@ -49,34 +49,72 @@ class _HomePageState extends State<HomePage>
   Widget build(BuildContext context) {
     final Story story = widget.stories[_currentIndex];
     return Scaffold(
+      backgroundColor: Colors.black,
       body: GestureDetector(
         onTapDown: (details) => _onTapDown(details, story),
-        child: PageView.builder(
-          controller: _pageController,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (context, i) {
-            final Story story = widget.stories[i];
-            switch (story.media) {
-              case MediaType.image:
-                return CachedNetworkImage(
-                  imageUrl: story.url,
-                  fit: BoxFit.cover,
-                );
-              case MediaType.video:
-                if (_videoController != null &&
-                    _videoController.value.initialized) {
-                  return FittedBox(
-                    fit: BoxFit.cover,
-                    child: SizedBox(
-                      width: _videoController.value.size.width,
-                      height: _videoController.value.size.height,
-                      child: VideoPlayer(_videoController),
-                    ),
-                  );
+        child: Stack(
+          children: <Widget>[
+            PageView.builder(
+              controller: _pageController,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: widget.stories.length,
+              itemBuilder: (context, i) {
+                final Story story = widget.stories[i];
+                switch (story.media) {
+                  case MediaType.image:
+                    return CachedNetworkImage(
+                      imageUrl: story.url,
+                      fit: BoxFit.cover,
+                    );
+                  case MediaType.video:
+                    if (_videoController != null &&
+                        _videoController.value.isInitialized) {
+                      return FittedBox(
+                        fit: BoxFit.cover,
+                        child: SizedBox(
+                          width: _videoController.value.size.width,
+                          height: _videoController.value.size.height,
+                          child: VideoPlayer(_videoController),
+                        ),
+                      );
+                    }
                 }
-            }
-            return const SizedBox.shrink();
-          },
+                return const SizedBox.shrink();
+              },
+            ),
+            Positioned(
+              top: 40.0,
+              left: 10.0,
+              right: 10.0,
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    children: widget.stories
+                        .asMap()
+                        .map((i, e) {
+                          return MapEntry(
+                            i,
+                            AnimatedBar(
+                              animationController: _animationController,
+                              position: i,
+                              currentIndex: _currentIndex,
+                            ),
+                          );
+                        })
+                        .values
+                        .toList(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 1.5,
+                      vertical: 10.0,
+                    ),
+                    child: UserInfo(user: story.user),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -103,8 +141,10 @@ class _HomePageState extends State<HomePage>
       if (story.media == MediaType.video) {
         if (_videoController.value.isPlaying) {
           _videoController.pause();
+          _animationController.stop();
         } else {
           _videoController.play();
+          _animationController.forward(from: 1);
         }
       }
     }
@@ -124,7 +164,7 @@ class _HomePageState extends State<HomePage>
         _videoController = VideoPlayerController.network(story.url)
           ..initialize().then((_) {
             setState(() {});
-            if (_videoController.value.initialized) {
+            if (_videoController.value.isInitialized) {
               _animationController.duration = _videoController.value.duration;
               _videoController.play();
               _animationController.forward();
@@ -139,5 +179,110 @@ class _HomePageState extends State<HomePage>
         curve: Curves.easeInOut,
       );
     }
+  }
+}
+
+class AnimatedBar extends StatelessWidget {
+  final AnimationController animationController;
+  final int position;
+  final int currentIndex;
+
+  const AnimatedBar({
+    Key key,
+    @required this.animationController,
+    @required this.position,
+    @required this.currentIndex,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Flexible(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 1.5),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return Stack(
+              children: <Widget>[
+                _buildContainer(
+                  double.infinity,
+                  position < currentIndex
+                      ? Colors.white
+                      : Colors.white.withOpacity(0.5),
+                ),
+                position == currentIndex
+                    ? AnimatedBuilder(
+                        animation: animationController,
+                        builder: (context, child) {
+                          return _buildContainer(
+                            constraints.maxWidth * animationController.value,
+                            Colors.white,
+                          );
+                        },
+                      )
+                    : const SizedBox.shrink(),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Container _buildContainer(double width, Color color) {
+    return Container(
+      height: 5.0,
+      width: width,
+      decoration: BoxDecoration(
+        color: color,
+        border: Border.all(
+          color: Colors.black26,
+          width: 0.8,
+        ),
+        borderRadius: BorderRadius.circular(3.0),
+      ),
+    );
+  }
+}
+
+class UserInfo extends StatelessWidget {
+  final User user;
+
+  const UserInfo({
+    Key key,
+    @required this.user,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        CircleAvatar(
+          radius: 20.0,
+          backgroundColor: Colors.grey[300],
+          backgroundImage: CachedNetworkImageProvider(
+            user.imageUrl,
+          ),
+        ),
+        const SizedBox(width: 10.0),
+        Expanded(
+          child: Text(
+            user.name,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 18.0,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        IconButton(
+          icon: const Icon(
+            Icons.close,
+            size: 30.0,
+            color: Colors.white,
+          ),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+      ],
+    );
   }
 }
