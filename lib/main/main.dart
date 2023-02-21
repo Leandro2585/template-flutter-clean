@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 
 import 'package:flutter_clean/ui/i18n/i18n.dart';
 import 'package:flutter_clean/ui/pages/pages.dart';
-import 'package:flutter_clean/ui/pages/home/data.dart';
+import 'package:flutter_clean/ui/pages/story/data.dart';
 import 'package:flutter_clean/main/factories/factories.dart';
 import 'package:flutter_clean/ui/components/components.dart';
 
@@ -32,12 +32,16 @@ class App extends StatelessWidget {
         GetPage(
             name: '/login', page: makeLoginPage, transition: Transition.fadeIn),
         GetPage(
-          name: '/home',
-          page: () => HomePage(
+          name: '/story',
+          page: () => StoryPage(
             stories: stories,
           ),
           transition: Transition.fadeIn,
-        )
+        ),
+        GetPage(
+            name: '/home',
+            page: () => const HomePage(),
+            transition: Transition.fadeIn),
       ],
     );
   }

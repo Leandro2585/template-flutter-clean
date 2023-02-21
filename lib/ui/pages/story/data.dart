@@ -16,10 +16,7 @@ final List<Story> stories = [
   Story(
     url: 'https://media.giphy.com/media/moyzrwjUIkdNe/giphy.gif',
     media: MediaType.image,
-    user: User(
-      name: 'John Doe',
-      imageUrl: 'https://wallpapercave.com/wp/AYWg3iu.jpg',
-    ),
+    user: user,
     duration: const Duration(seconds: 7),
   ),
   Story(
